@@ -2,16 +2,65 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f8f4;
-  color: #333;
+  color: #2f4f2f;
   margin: 0;
   padding: 0;
+}
+
+p, li, span {
+  color: #2f4f2f;
 }
 
 /* Navbar */
 .navbar-brand {
   font-family: 'Poppins', sans-serif;
-  color: #556b2f;
+  color: #000000;
   font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+  color: #2f4f2f;
+}
+
+.navbar-nav .nav-link.active {
+  color: #1b3a1b;
+}
+
+/* Buttons */
+.btn-register {
+  background-color: #1b3a1b !important;
+  color: #ffffff !important;
+  border: none;
+}
+
+.btn-register:hover,
+.btn-register:focus {
+  background-color: #144115 !important;
+  color: #d4f0d4 !important;
+}
+
+.btn-clear {
+  background-color: #2f4f2f !important;
+  color: #e0e0e0 !important;
+  border: none;
+}
+
+.btn-clear:hover,
+.btn-clear:focus {
+  background-color: #1b3a1b !important;
+  color: #d4f0d4 !important;
+}
+
+.btn-delete {
+  background-color: #7a1b1b !important;
+  color: #fff !important;
+  border: none;
+}
+
+.btn-delete:hover,
+.btn-delete:focus {
+  background-color: #4c1111; !important;
+  color: #f9caca;
 }
 
 /* Main container */
@@ -21,59 +70,40 @@ main {
   border-radius: 10px;
 }
 
+label {
+  color: #2f4f2f; /* Dark Forest Green */
+}
+
+/* Table header */
+table thead th {
+  background-color: #2f4f2f; /* Dark Forest Green */
+  color: #ffffff; /* White text for contrast */
+}
+
 /* Headings */
 h1, h2, h3 {
   font-family: 'Poppins', sans-serif;
 }
 
 h1 {
-  color: #9caf88;
+  color: #1b3a1b;
 }
 
 h2 {
-  color: #556b2f;
+  color: #1b3a1b;
 }
 
 h3 {
-  color: #7a8f70;
+  color: #1b3a1b;
 }
 
-/* Pet list styling */
-
-#petList {
-  list-style-type: none;
-  padding: 0;
-  max-height: 250px;
-  overflow-y: auto;
-  border-radius: 25px;
-  border: 2px solid #9caf88;
-  background-color: #f4f8f4;
-}
-
-#petList li {
-  background-color: #d7e3d4;
-  margin: 0.25rem 1rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  color: #333;
-}
-
-#petList li:hover {
-  background-color: #c6dcc3;
-}
-
-#averageAge {
-  font-size: 1rem;
-  color: #666;
-}
-
-/* Responsive image */
+/*Image*/
 img {
   max-width: 100%;
   height: auto;
   border: 3px solid #9caf88;
   border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 /* Footer */

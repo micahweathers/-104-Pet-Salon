@@ -1,156 +1,134 @@
-// -------------------
-// Salon Object Literal
-// -------------------
-
+// Salon Information Object
 const salon = {
-  name: "The Fashion Pet",
-  phone: "555-1234",
-  address: {
-    street: "123 Paws Lane",
-    city: "Petville",
-    zip: "98765"
-  },
+  Name: "The Fashion Pet",
+  Phone: "555-1234",
+  Address: {
+    Street: "123 Paws Lane",
+    City: "Petville",
+    Zip: "98765"
+  }
 };
 
-// Show salon info on the homepage
-function displaySalonInfo() {
-  const salonInfoDiv = document.getElementById("salonInfo");
+// Initial Array Of Registered Pets
+let petsList = [
+  { Name: "Appa", Age: 2, Gender: "Male", Service: "Bath & Groom", Breed: "Ginger Cat", Type: "Cat" },
+  { Name: "Zoro", Age: 5, Gender: "Male", Service: "Nail Trim", Breed: "Tuxedo Cat", Type: "Cat" },
+  { Name: "Bugsy", Age: 3, Gender: "Female", Service: "Vaccination", Breed: "Tuxedo Cat", Type: "Cat" }
+];
 
-  if (salonInfoDiv) {
-    salonInfoDiv.innerHTML = `
-      <h2>${salon.name}</h2>
-      <p><strong>Phone:</strong> ${salon.phone}</p>
-      <p><strong>Address:</strong> ${salon.address.street}, ${salon.address.city}, ${salon.address.zip}</p>
-    `;
-  }
-}
-
-// -------------------
 // Pet Constructor Function
-// -------------------
-
-function Pet(name, age, gender, breed, service, type) {
-  this.name = name;
-  this.age = age;
-  this.gender = gender;
-  this.breed = breed;
-  this.service = service;
-  this.type = type;
+function Pet(Name, Age, Gender, Breed, Service, Type) {
+  this.Name = Name;
+  this.Age = Age;
+  this.Gender = Gender;
+  this.Breed = Breed;
+  this.Service = Service;
+  this.Type = Type;
 }
 
-// -------------------
-// Initial Static Pets
-// -------------------
+// Salon Info
+function populateSalonInfo() {
+  const salonNameEl = document.getElementById("salonName");
+  const salonPhoneEl = document.getElementById("salonPhone");
+  const salonAddressEl = document.getElementById("salonAddress");
 
-let pet1 = {
-  name: "Appa",
-  age: 2,
-  gender: "Male",
-  service: "Bath & Groom",
-  breed: "Ginger Cat"
-};
+  if (salonNameEl) salonNameEl.textContent = `Name: ${salon.Name}`;
+  if (salonPhoneEl) salonPhoneEl.textContent = `Phone: ${salon.Phone}`;
+  if (salonAddressEl) {
+    const { Street, City, Zip } = salon.Address;
+    salonAddressEl.textContent = `Address: ${Street}, ${City}, ${Zip}`;
+  }
+}
 
-let pet2 = {
-  name: "Zoro",
-  age: 5,
-  gender: "Male",
-  service: "Nail Trim",
-  breed: "Tuxedo Cat"
-};
-
-let pet3 = {
-  name: "Bugsy",
-  age: 3,
-  gender: "Female",
-  service: "Vaccination",
-  breed: "Tuxedo Cat"
-};
-
-// -------------------
-// Array of Pets
-// -------------------
-
-let petsList = [pet1, pet2, pet3];
-
-// -------------------
-// UI Update Functions
-// -------------------
-
-// Show total number of pets
-function showPetCount() {
+// Total Pets and Average Age
+function updateDashboard() {
   const countEl = document.getElementById("petCount");
-  if (countEl) {
-    countEl.textContent = `Total Pets: ${petsList.length}`;
-  }
-}
-
-// Show average age of all pets
-function showAverageAge() {
-  if (petsList.length === 0) return;
-
-  let totalAge = 0;
-  for (let i = 0; i < petsList.length; i++) {
-    totalAge += petsList[i].age;
-  }
-
-  const average = (totalAge / petsList.length).toFixed(1);
   const avgEl = document.getElementById("averageAge");
+
+  if (countEl) countEl.textContent = `Total Pets: ${petsList.length}`;
+
   if (avgEl) {
-    avgEl.textContent = `Average Age: ${average} years`;
+    const averageAge = petsList.length
+      ? (petsList.reduce((sum, pet) => sum + pet.Age, 0) / petsList.length).toFixed(1)
+      : 0;
+
+    avgEl.textContent = `Average Age: ${averageAge} years`;
   }
 }
 
-// Show list of pet names
-function showPetNames() {
-  const listEl = document.getElementById("petList");
-  if (!listEl) return;
+// Registered Pets Table
+function displayTable() {
+  const tableBody = document.getElementById("petsTableBody");
+  if (!tableBody) return;
 
-  listEl.innerHTML = ""; // Clear previous list
+  // Clear Rows
+  tableBody.innerHTML = "";
 
-  petsList.forEach((pet) => {
-    const li = document.createElement("li");
-    li.textContent = pet.name;
-    listEl.appendChild(li);
+  // Add Pet Table Row
+  petsList.forEach((pet, index) => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${pet.Name}</td>
+      <td>${pet.Age}</td>
+      <td>${pet.Gender}</td>
+      <td>${pet.Breed}</td>
+      <td>${pet.Service}</td>
+      <td>${pet.Type}</td>
+      <td>
+        <button class="btn btn-sm btn-delete" onclick="deletePet(${index})">Delete</button>
+      </td>
+    `;
+
+    tableBody.appendChild(row);
   });
 }
 
-// -------------------
-// Form Submission Logic
-// -------------------
+// Delete Pet From List
+function deletePet(index) {
+  petsList.splice(index, 1);
+  updateDashboard();
+  displayTable();
+}
 
+// DOMContentLoaded Event Listener And Initial Data
 document.addEventListener("DOMContentLoaded", function () {
-  // Initial display
-  displaySalonInfo();
-  showPetCount();
-  showAverageAge();
-  showPetNames();
+  // Salon Info
+  populateSalonInfo();
 
+  // Initialize Dashboard and Table
+  updateDashboard();
+  displayTable();
+
+  // Pet Registration Form Handler
   const form = document.getElementById("petForm");
-
   if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-      // Get values from form
-      const name = document.getElementById("petName").value;
+      // Retrieve Form Values
+      const name = document.getElementById("petName").value.trim();
       const age = parseInt(document.getElementById("petAge").value);
       const gender = document.getElementById("petGender").value;
-      const breed = document.getElementById("petBreed").value;
-      const service = document.getElementById("petService").value;
+      const breed = document.getElementById("petBreed").value.trim();
+      const service = document.getElementById("petServices").value;
       const type = document.getElementById("petType").value;
 
-      // Create pet using constructor
-      const newPet = new Pet(name, age, gender, breed, service, type);
+      // Validate Age Is Positive Number
+      if (isNaN(age) || age < 0) {
+        alert("Please enter a valid age.");
+        return;
+      }
 
-      // Add to array
+      // New Pet And Add To List
+      const newPet = new Pet(name, age, gender, breed, service, type);
       petsList.push(newPet);
 
-      // Update UI
-      showPetCount();
-      showAverageAge();
-      showPetNames();
+      // Update Dashboard And Table
+      updateDashboard();
+      displayTable();
 
-      // Clear form
+      // Reset The Form
       form.reset();
     });
   }
